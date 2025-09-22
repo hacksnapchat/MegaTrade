@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Link Trader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #1a2a6c;
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+        }
+        
+        .description {
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1a2a6c;
+            font-weight: 600;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: #1a2a6c;
+            outline: none;
+        }
+        
+        .required {
+            color: #b21f1f;
+        }
+        
+        .optional {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .trade-btn {
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .trade-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .trade-btn:active {
+            transform: translateY(0);
+        }
+        
+        .trade-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .how-it-works {
+            margin-top: 30px;
+            text-align: left;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #1a2a6c;
+        }
+        
+        .how-it-works h3 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+        }
+        
+        .how-it-works ol {
+            padding-left: 20px;
+        }
+        
+        .how-it-works li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        footer {
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .encryption-note {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .telegram-info {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .telegram-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+            background-color: #0088cc;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mega Link Trader</h1>
+        <p class="description">Enter a Mega link and click "Trade" to exchange it for a different one after validation.</p>
+        
+        <div class="input-group">
+            <label for="telegramUsername">Telegram Username <span class="required">*</span>:</label>
+            <input type="text" id="telegramUsername" placeholder="@username" autocomplete="off" required>
+            <div class="telegram-info">
+                <div class="telegram-icon">T</div>
+                <span>We'll contact you on Telegram with your new link</span>
+            </div>
+        </div>
+        
+        <div class="input-group">
+            <label for="megaLink">Mega Link <span class="required">*</span>:</label>
+            <input type="text" id="megaLink" placeholder="https://mega.nz/file/..." autocomplete="off" required>
+        </div>
+        
+        <div class="input-group">
+            <label for="encryptionKey">Encryption Key <span class="optional">(if required)</span>:</label>
+            <input type="text" id="encryptionKey" placeholder="Enter decryption key (optional)" autocomplete="off">
+            <p class="encryption-note">Only provide this if your Mega link is password-protected</p>
+        </div>
+        
+        <button class="trade-btn" id="tradeBtn">Trade</button>
+        
+        <div id="statusMessage" class="status"></div>
+        
+        <div class="how-it-works">
+            <h3>How It Works:</h3>
+            <ol>
+                <li>Enter your Telegram username (required)</li>
+                <li>Enter a valid Mega link in the input field</li>
+                <li>If your link is encrypted, provide the decryption key (optional)</li>
+                <li>Click the "Trade" button to submit your link</li>
+                <li>Your link will be validated and sent to our system</li>
+                <li>After validation, you'll receive a different Mega link on Telegram</li>
+                <li>The exchange happens within 24 hours</li>
+            </ol>
+        </div>
+        
+        <footer>
+            <p>Note: Only valid Mega links are accepted. Spam or invalid links will be rejected.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const telegramUsernameInput = document.getElementById('telegramUsername');
+            const megaLinkInput = document.getElementById('megaLink');
+            const encryptionKeyInput = document.getElementById('encryptionKey');
+            const tradeBtn = document.getElementById('tradeBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // Replace with your actual Discord webhook URL
+            const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/your-webhook-url-here';
+            
+            // Function to validate Telegram username format
+            function isValidTelegramUsername(username) {
+                const telegramRegex = /^@[a-zA-Z0-9_]{5,32}$/;
+                return telegramRegex.test(username);
+            }
+            
+            // Function to validate Mega link format
+            function isValidMegaLink(link) {
+                const megaRegex = /^https:\/\/mega\.nz\/(file|folder)\/[a-zA-Z0-9_-]+(#|$)/;
+                return megaRegex.test(link);
+            }
+            
+            // Function to show status message
+            function showStatus(message, type) {
+                statusMessage.textContent = message;
+                statusMessage.className = 'status ' + type;
+                statusMessage.style.display = 'block';
+                
+                // Hide status after 5 seconds
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Function to send data to Discord webhook
+            async function sendToDiscord(telegramUsername, link, key) {
+                try {
+                    const content = key 
+                        ? `New Mega Link Trade:\nTelegram: ${telegramUsername}\nLink: ${link}\nEncryption Key: ${key}`
+                        : `New Mega Link Trade:\nTelegram: ${telegramUsername}\nLink: ${link}`;
+                    
+                    const response = await fetch(DISCORD_WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            content: content,
+                            username: 'Mega Link Trader',
+                            avatar_url: 'https://mega.nz/favicon.ico'
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        return true;
+                    } else {
+                        console.error('Failed to send to Discord:', response.status);
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Error sending to Discord:', error);
+                    return false;
+                }
+            }
+            
+            // Event listener for the trade button
+            tradeBtn.addEventListener('click', async function() {
+                const telegramUsername = telegramUsernameInput.value.trim();
+                const megaLink = megaLinkInput.value.trim();
+                const encryptionKey = encryptionKeyInput.value.trim();
+                
+                // Validate the inputs
+                if (!telegramUsername) {
+                    showStatus('Please enter your Telegram username.', 'error');
+                    return;
+                }
+                
+                if (!isValidTelegramUsername(telegramUsername)) {
+                    showStatus('Please enter a valid Telegram username (e.g., @username).', 'error');
+                    return;
+                }
+                
+                if (!megaLink) {
+                    showStatus('Please enter a Mega link.', 'error');
+                    return;
+                }
+                
+                if (!isValidMegaLink(megaLink)) {
+                    showStatus('Please enter a valid Mega link (should start with https://mega.nz/file/ or https://mega.nz/folder/)', 'error');
+                    return;
+                }
+                
+                // Disable button and show loading state
+                tradeBtn.disabled = true;
+                tradeBtn.textContent = 'Trading...';
+                
+                // Send to Discord webhook
+                const success = await sendToDiscord(telegramUsername, megaLink, encryptionKey);
+                
+                if (success) {
+                    showStatus('Link submitted successfully! After validation, you will receive a new link on Telegram within 24 hours.', 'success');
+                    telegramUsernameInput.value = ''; // Clear the input
+                    megaLinkInput.value = ''; // Clear the input
+                    encryptionKeyInput.value = ''; // Clear the encryption key
+                } else {
+                    showStatus('Failed to submit link. Please try again later.', 'error');
+                }
+                
+                // Re-enable button
+                tradeBtn.disabled = false;
+                tradeBtn.textContent = 'Trade';
+            });
+            
+            // Allow submitting with Enter key in any field
+            const inputs = [telegramUsernameInput, megaLinkInput, encryptionKeyInput];
+            inputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        tradeBtn.click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
